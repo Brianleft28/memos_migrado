@@ -1,0 +1,13 @@
+{
+  "name": "Peatonal",
+  "short_name": "Peatonal",
+  "description": "Administración de Atenciones",
+  "background_color": "#343a40",
+  "theme_color": "#343a40",
+  "orientation": "portrait",
+  "display_override": ["fullscreen"],  
+  "display": "standalone",
+  "start_url": "./utn_source=web_app_manifest",
+  "scope": "./",
+  "lang": "es-AR"
+}
