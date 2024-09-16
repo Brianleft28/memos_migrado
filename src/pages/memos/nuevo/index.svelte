@@ -50,7 +50,7 @@
 </script>
 
 <div class="row justify-content-center">
-  <div class="col-md-9 my-2 border rounded-2 px-4 py-2">
+  <div class="col-md-9 my-2 mt-2 py-4 rounded-2">
     <InputWrapper name="Nuevo memo">
       <!-- Input's -->
       <Input
