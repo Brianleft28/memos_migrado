@@ -50,15 +50,15 @@
 </script>
 
 <div class="row justify-content-center">
-  <div class="col-md-9 my-2 mt-2 py-4 rounded-2">
+  <div class="col-md-9 my-2 p-3 shadow-sm rounded-2">
     <InputWrapper name="Nuevo memo">
       <!-- Input's -->
       <Input
+        placeholder="Detalle"
         error={errors.detalle}
         name={'Detalle del memo'}
         cols={12}
         bind:valor={detalle}
-        {disabled}
       />
       <!-- Select -->
       <Select
@@ -66,7 +66,6 @@
         label={'Seleccione un estado'}
         bind:valor={estado_id}
         cols={6}
-        {disabled}
         options={optionsEstado}
       />
       <Select
@@ -74,22 +73,23 @@
         label={'Seleccione una secretaria / dependencia'}
         bind:valor={secretaria_id}
         cols={6}
-        {disabled}
         options={optionsSecretaria}
       />
       <!-- Fecha -->
       <Input
+        placeholder="Fecha"
         error={errors.fecha}
         name={'Fecha del memo'}
         cols={12}
         bind:valor={fechaDelMemo}
-        {disabled}
       />
-      <button
-        type="button"
-        on:click={handleSubmit}
-        class="btn col-md-11 mt-3 btn-outline-dark">Agregar memo</button
-      >
+      <div class="col-md-12">
+        <button
+          type="button"
+          on:click={handleSubmit}
+          class="btn mt-2 col-md-12 btn-outline-dark">Agregar memo</button
+        >
+      </div>
     </InputWrapper>
   </div>
 </div>

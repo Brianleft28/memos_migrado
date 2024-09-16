@@ -2,7 +2,6 @@
   export let cols: number;
   export let valor: number | string;
   export let label: string;
-  export let disabled: boolean;
   export let options: { id: number; value: string }[];
   export let error: string;
 
@@ -13,10 +12,7 @@
   <label class="form-label" for={id}>{label}</label>
   <select
     bind:value={valor}
-    {disabled}
-    class="{disabled
-      ? 'disabled-input'
-      : ''} form-select bg-body-tertiary shadow-sm border-primary-subtle border-bottom
+    class="form-select bg-body-secondary shadow-sm border-primary-subtle border-bottom
       {error ? 'is-invalid' : ''}
       "
     {id}
@@ -37,12 +33,7 @@
     box-shadow: none;
   }
 
-  .disabled-input {
-    border: none !important;
-    outline: none !important;
-    background-color: var(--bs-dark-border-subtle) !important;
-    color: var(--bs-secondary-color) !important;
-    cursor: not-allowed;
-    opacity: 0.65;
+  select {
+    background-color: var(--bs-body-bg) !important;
   }
 </style>

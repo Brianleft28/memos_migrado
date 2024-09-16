@@ -1,10 +1,9 @@
 <script lang="ts">
   export let name: string;
   export let cols: number;
+  export let placeholder: string;
   export let valor: string | number;
-  export let disabled: boolean;
   export let error: string;
-
   const id = name.replace(/\s/g, '-').toLowerCase();
 </script>
 
@@ -13,27 +12,22 @@
     <label for={name} class="form-label">{name}</label>
     <input
       type="date"
-      {disabled}
       bind:value={valor}
-      class="form-control bg-body-tertiary shadow-sm border-primary-subtle border-bottom custom-focus {disabled
-        ? 'disabled-input'
-        : ''}
+      class="form-control shadow-md border-primary-subtle border-bottom custom-focus
         {error ? 'is-invalid' : ''}
         "
-      placeholder={name}
+      {placeholder}
       {id}
     />
   {:else}
+    <label for={name} class="form-label text-md-start">{name}</label>
     <input
       type="text"
-      {disabled}
       bind:value={valor}
-      class="form-control bg-body-tertiary shadow-sm border-primary-subtle border-bottom custom-focus {disabled
-        ? 'disabled-input'
-        : ''}
+      class="form-control shadow-md border-primary-subtle border-bottom custom-focus
         {error ? 'is-invalid' : ''}
         "
-      placeholder={name}
+      {placeholder}
       {id}
     />
   {/if}
@@ -50,5 +44,9 @@
     color: var(--bs-secondary-color) !important;
     cursor: not-allowed;
     opacity: 0.65;
+  }
+
+  input {
+    background-color: var(--bs-body-bg) !important;
   }
 </style>
