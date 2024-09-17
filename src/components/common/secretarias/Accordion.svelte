@@ -1,36 +1,73 @@
 <script lang="ts">
-  export let secretarias: {
-    secretaria: string;
-    id: string;
-    dependencias: string[];
-  }[];
+  import type { Secretaria } from '../../../types/secretaria';
+
+  export let secretarias: Secretaria[] = [];
 </script>
 
-{#each secretarias as { secretaria, id, dependencias }}
+{#each secretarias as { nombre, correo, telefono, dependencias }}
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingOne">
       <button
         class="accordion-button"
         type="button"
         data-bs-toggle="collapse"
-        data-bs-target={`#${id}`}
+        data-bs-target={`#${nombre}`}
         aria-expanded="false"
-        aria-controls={id}
+        aria-controls={nombre}
       >
-        {secretaria}
+        {nombre}
       </button>
     </h2>
     <div
-      {id}
+      id={nombre}
       class="accordion-collapse collapse"
       aria-labelledby="headingOne"
       data-bs-parent="#listadoSecretarias"
     >
       <div class="accordion-body">
-        <ul class="d-flex">
-          {#each dependencias as dependencia}
-            <li class="list-group-item">{dependencia}</li>
-          {/each}
+        <div class="table-group-divider"></div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item p-2">
+            <div>
+              <span class="fw-bold">Secretaria: </span>
+              {nombre}
+            </div>
+            <div>
+              <span class="fw-bold">Correo: </span>
+              {correo}
+            </div>
+            <div>
+              <span class="fw-bold">Telefono: </span>
+              {telefono}
+            </div>
+          </li>
+        </ul>
+        <div class="table-group-divider"></div>
+        <ul class="list-group list-group-flush">
+          <!-- Dependencias -->
+          {#if dependencias.length > 0}
+            {#each dependencias as dependencia}
+              <li class="list-group-item p-2">
+                <div>
+                  <span class="fw-bold">Dependencia: </span>
+                  {dependencia.nombre}
+                </div>
+                <div>
+                  <span class="fw-bold">Correo: </span>
+                  {dependencia.correo}
+                </div>
+                <div>
+                  <span class="fw-bold">Telefono: </span>
+                  {dependencia.telefono}
+                </div>
+              </li>
+            {/each}
+          {:else}
+            <li class="list-group-item p-2">No hay dependencias</li>
+          {/if}
+          <button class="btn btn-outline-dark w-full mt-2">
+            Añadir dependencia
+          </button>
         </ul>
       </div>
     </div>
