@@ -5,9 +5,17 @@ export interface Dependencia {
   telefono: number;
 }
 
-export interface Secretaria {
+// Interfaz base para la secretaria
+export interface BaseSecretaria {
   nombre: string;
   correo: string;
   telefono: number;
-  dependencias: Dependencias[];
+}
+
+// Secretaria sin dependencias
+export interface Secretaria extends BaseSecretaria {}
+
+// Secretaria con dependencias
+export interface SecretariaWithDependencias extends BaseSecretaria {
+  dependencias: Dependencia[];
 }

@@ -3,14 +3,26 @@
   import Input from '../../../components/common/Input.svelte';
   import InputWrapper from '../../../components/common/InputWrapper.svelte';
   import ListadoSecretarias from '../../../components/common/secretarias/ListadoSecretarias.svelte';
+  import SecretariaServiceApi from '../../../services/api/SecretariaService';
+  import SecretariaServiceStorage from '../../../services/storage/SecretariaServices';
+  import type { Secretaria } from '../../../types/secretaria';
   /* Declaro las variables */
   let nombre: string = '';
   let telefono: number;
   let correo: string = '';
   let error: Record<string, string> = {};
+  const secretariaService = new SecretariaServiceApi();
+  const secretariaServiceStorage = new SecretariaServiceStorage();
+
   /* Funcion Handle Submit */
   const handleSubmit = () => {
-    console.log('nombre', nombre);
+    const secretaria = {
+      nombre,
+      telefono,
+      correo,
+      dependencias: null
+    };
+    secretariaServiceStorage.add(secretaria);
   };
 </script>
 
