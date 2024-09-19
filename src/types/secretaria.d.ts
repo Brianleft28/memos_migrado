@@ -1,5 +1,12 @@
+type TipoDependencia =
+  | 'Dirección'
+  | 'Subsecretaría'
+  | 'Coordinación'
+  | 'Departamento';
+
 export interface Dependencia {
   secretaria_id: number;
+  tipo: TipoDependencia;
   nombre: string;
   correo: string;
   telefono: number;
@@ -7,6 +14,7 @@ export interface Dependencia {
 
 // Interfaz base para la secretaria
 export interface BaseSecretaria {
+  id?: number;
   nombre: string;
   correo: string;
   telefono: number;

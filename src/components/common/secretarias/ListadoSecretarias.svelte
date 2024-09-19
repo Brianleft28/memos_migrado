@@ -1,87 +1,52 @@
 <script lang="ts">
-  import type { Secretaria } from '../../../types/secretaria';
+  import type {
+    Dependencia,
+    Secretaria,
+    SecretariaWithDependencias
+  } from '../../../types/secretaria';
   import InputWrapper from '../InputWrapper.svelte';
   import Accordion from './Accordion.svelte';
-  import SecretariaService from '../../../services/api/SecretariaService';
-  import DependenciaService from '../../../services/api/DependenciasService';
   import { onMount } from 'svelte';
-  const secretariaServices = new SecretariaService();
-  const dependenciaServices = new DependenciaService();
 
-  let secretarias_: Secretaria[] = [];
-  let dependencias_: any[] = [];
+  export let loadSecretarias: () => Promise<Secretaria[]>;
+  export let loadDependencias: () => Promise<Dependencia[]>;
 
-  async function loadSecretarias() {
-    try {
-      let secretarias_ = await secretariaServices.getAll();
-      return secretarias_;
-    } catch (error) {
-      console.error('Error al cargar secretarias:', error);
-    }
-  }
+  let secretarias: SecretariaWithDependencias[] = [];
 
-  async function loadDependencias() {
-    try {
-      dependencias_ = await dependenciaServices.getAll();
-      return dependencias_;
-    } catch (error) {
-      console.error('Error al cargar dependencias:', error);
-    }
-  }
+  const transformToSecretariaWithDependencias = (
+    secretarias: Secretaria[],
+    dependencias: Dependencia[]
+  ): SecretariaWithDependencias[] => {
+    const dependenciasMap = dependencias.reduce((acc: any, dep: any) => {
+      if (!acc[dep.secretaria_id]) {
+        acc[dep.secretaria_id] = [];
+      }
+      acc[dep.secretaria_id].push(dep);
+      return acc;
+    }, {});
 
-  loadDependencias();
-  loadSecretarias();
+    return secretarias.map((sec) => {
+      const id = sec.id;
+      return {
+        ...sec,
+        dependencias: id !== undefined ? dependenciasMap[id] || [] : []
+      };
+    });
+  };
 
   onMount(async () => {
-    secretarias_ = await loadSecretarias();
-    dependencias_ = await loadDependencias();
-    console.log('Secretarias:', secretarias_);
-    console.log('Dependencias:', dependencias_);
+    const secretariasData = await loadSecretarias();
+    const dependenciasData = await loadDependencias();
+    secretarias = transformToSecretariaWithDependencias(
+      secretariasData,
+      dependenciasData
+    );
+    console.log('Secretarias:', secretarias);
+    console.log('Dependencias:', dependenciasData);
   });
-
-  let secretarias: Secretaria[] = [
-    {
-      nombre: 'Innovacion',
-      correo: 'innovacion@test.com',
-      telefono: 1144812673,
-      dependencias: [
-        {
-          secretaria_id: 1,
-          nombre: 'Desarrollo',
-          correo: 'desarrollo@test.com',
-          telefono: 1144812673
-        },
-        {
-          secretaria_id: 1,
-          nombre: 'Informatica',
-          correo: 'informatica@test.com',
-          telefono: 1144812673
-        }
-      ]
-    },
-    {
-      nombre: 'Educacion',
-      correo: 'educacion@test.com',
-      telefono: 1144812673,
-      dependencias: [
-        {
-          secretaria_id: 2,
-          nombre: 'Primaria',
-          correo: 'primaria@test.com',
-          telefono: 1144812673
-        },
-        {
-          secretaria_id: 2,
-          nombre: 'Secundaria',
-          correo: 'secundaria@test.com',
-          telefono: 1144812673
-        }
-      ]
-    }
-  ];
 </script>
 
-<div class="col-md-6 my-2 p-3 shadow-md rounded-2">
+<div class="col-md-6 my-2 p-1 shadow-md rounded-2">
   <!-- Listado de secretarias -->
   <InputWrapper name="Listado de secretarias">
     <!-- Acordion -->
@@ -96,7 +61,7 @@
 <style>
   .scroll-container {
     max-height: 550px;
-    min-height: 400px;
+    min-height: 560px;
     overflow-y: auto;
   }
 </style>
